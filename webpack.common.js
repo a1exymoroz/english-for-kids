@@ -9,8 +9,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'index.html',
+      title: 'English for kids',
     }),
   ],
   output: {

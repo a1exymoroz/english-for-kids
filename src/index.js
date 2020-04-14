@@ -1,7 +1,19 @@
 import './style.scss';
-import row from './row.html';
+import { NavigationBlock } from './components/navigation';
+import { cards } from './assets/cards/cards';
+import { MainBlock } from './components/main';
 
-document.querySelector('#test').innerHTML = row;
-const text = document.querySelector('main');
+class App {
+  constructor(data) {
+    this.data = data;
+    this.buildApp();
+  }
 
-text.innerHTML = 'test';
+  buildApp() {
+    const titles = this.data.map((element) => element.section);
+    new NavigationBlock(titles);
+    new MainBlock(this.data[0].items);
+  }
+}
+
+new App(cards);
