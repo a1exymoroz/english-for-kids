@@ -1,3 +1,7 @@
 import './style.scss';
-// import 'mdbootstrap';
-// import { cards } from './assets/cards';
+import row from './row.html';
+
+document.querySelector('#test').innerHTML = row;
+const text = document.querySelector('main');
+
+text.innerHTML = 'test';

@@ -9,7 +9,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Production',
+      template: './src/index.html',
+      filename: 'index.html',
     }),
   ],
   output: {
@@ -36,6 +37,10 @@ module.exports = {
             presets: ['@babel/preset-env'],
           },
         },
+      },
+      {
+        test: /\.html/,
+        loader: 'html-loader',
       },
       {
         test: /\.(png|svg|jpg|gif|mp3)$/,

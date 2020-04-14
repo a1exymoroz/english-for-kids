@@ -4,7 +4,9 @@
     "linebreak-style": 0,
     "no-new": 0,
     "no-param-reassign": 0,
-    "import/prefer-default-export": 0
+    "import/prefer-default-export": 0,
+    "import/no-unresolved": 0,
+    "no-debugger": 0
   },
   "env": {
     "browser": true,
