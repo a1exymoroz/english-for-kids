@@ -13,6 +13,7 @@ class App {
     const titles = this.data.map((element) => element.section);
     new NavigationBlock(titles);
     new MainBlock(this.data[0].items);
+    //test
   }
 }
 
