@@ -7,6 +7,8 @@ class App {
   constructor(data) {
     this.data = data;
     this.game = null;
+    this.isGameMode = true;
+    this.indexLink = 0;
     this.buildApp();
   }
 
@@ -14,16 +16,26 @@ class App {
     const titles = this.data.map((element) => element.section);
     const navigation = new NavigationComponent(titles);
     this.game = new GameComponent();
-    this.buildMainBlock(0);
+    this.buildMainBlock(this.indexLink);
 
     navigation.changeLink = (index) => {
-      this.game.resetCards();
-      this.buildMainBlock(index);
+      this.indexLink = index;
+      this.reBuildMainBlock();
+    };
+
+    this.game.changeGameMode = (isGameMode) => {
+      this.isGameMode = isGameMode;
+      this.reBuildMainBlock();
     };
   }
 
-  buildMainBlock(index) {
-    this.game.buildCards(this.data[index].items);
+  reBuildMainBlock() {
+    this.game.resetCards();
+    this.buildMainBlock();
+  }
+
+  buildMainBlock() {
+    this.game.buildGame(this.data[this.indexLink].items, this.isGameMode);
   }
 }
 

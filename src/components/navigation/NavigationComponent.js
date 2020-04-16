@@ -45,8 +45,9 @@ export class NavigationComponent {
 
     const listItem = document.querySelectorAll('.nav-link');
     document.querySelector('.navbar-nav').addEventListener('click', (event) => {
+      event.stopPropagation();
+
       if (event.target.classList.contains('nav-link')) {
-        event.stopPropagation();
         let linkIndex = 0;
         listItem.forEach((element, index) => {
           element.classList.remove('active');
@@ -54,6 +55,8 @@ export class NavigationComponent {
             linkIndex = index;
           }
         });
+
+        event.target.classList.add('active');
 
         this.changeLink(linkIndex);
       }

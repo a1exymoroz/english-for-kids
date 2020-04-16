@@ -2,19 +2,27 @@ import './CardComponent.style.scss';
 import rotate from '../../../assets/rotate.svg';
 
 export class CardComponent {
-  constructor(data) {
+  constructor(data, isGameMode, index) {
     this.data = data;
     this.cardNode = null;
-    this.buildCard();
-    this.setEvents();
     this.activeCard = false;
+    this.index = index;
+    if (isGameMode) {
+      this.buildGameCard();
+      this.setGameEvents();
+    } else {
+      this.buildTrainCard();
+      this.setTrainEvents();
+    }
+
+    this.onGameCardClick = () => {};
   }
 
   get getCardNode() {
     return this.cardNode;
   }
 
-  buildCard() {
+  buildTrainCard() {
     this.cardNode = document.createElement('div');
     this.cardNode.classList.add('cards__item');
     const front = this.buildContent('front', this.data.word);
@@ -41,10 +49,36 @@ export class CardComponent {
     return block;
   }
 
-  setEvents() {
+  setTrainEvents() {
     this.cardNode.addEventListener('click', (event) => this.onRotateCard(event));
-
     this.cardNode.addEventListener('mouseleave', (event) => this.onMouseLeaveCard(event));
+  }
+
+  setGameEvents() {
+    this.cardNode.addEventListener('click', (event) => this.onGameClick(event));
+  }
+
+  removeGameEvents() {
+    this.cardNode.removeEventListener('click', (event) => this.onGameClick(event));
+  }
+
+  cardSuccessClicked() {
+    this.cardNode.classList.add('inactive');
+    this.removeGameEvents();
+  }
+
+  onGameClick(event) {
+    event.stopPropagation();
+    this.onGameCardClick(this.data.word);
+  }
+
+  buildGameCard() {
+    this.cardNode = document.createElement('div');
+    this.cardNode.classList.add('cards__item');
+    const block = document.createElement('div');
+    block.style.backgroundImage = `url(./${this.data.image})`;
+    block.classList.add(...['front', 'game']);
+    this.cardNode.append(block);
   }
 
   onRotateCard(event) {
@@ -68,6 +102,7 @@ export class CardComponent {
   resetCard() {
     this.cardNode.removeEventListener('click', (event) => this.onRotateCard(event));
     this.cardNode.removeEventListener('mouseleave', (event) => this.onMouseLeaveCard(event));
+    this.removeGameEvents();
     this.cardNode.remove();
   }
 }
