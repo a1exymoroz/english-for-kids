@@ -2,6 +2,10 @@ import './GameComponent.style.scss';
 import { CardComponent } from './card/CardComponent';
 import correctAudio from '../../assets/cards/audio/correct.mp3';
 import errorAudio from '../../assets/cards/audio/error.mp3';
+import successAudio from '../../assets/cards/audio/success.mp3';
+import failureAudio from '../../assets/cards/audio/failure.mp3';
+import failureImg from '../../assets/cards/img/failure.jpg';
+import successImg from '../../assets/cards/img/success.jpg';
 
 export class GameComponent {
   constructor(rootNode, data, isGameMode, section) {
@@ -40,16 +44,21 @@ export class GameComponent {
   gameBuild() {
     this.gameNode = document.createElement('div');
 
-    this.startGameNode = document.createElement('button');
-    this.startGameNode.classList.add('cards__startButton');
-    this.startGameNode.textContent = 'Start';
-    this.gameNode.append(this.startGameNode);
-
     this.startsNode = document.createElement('div');
     this.startsNode.classList.add('cards__stars');
     this.gameNode.append(this.startsNode);
 
     this.buildCards();
+
+    const divStartButton = document.createElement('div');
+    divStartButton.classList.add('cards__startButton');
+
+    this.startGameNode = document.createElement('button');
+    this.startGameNode.classList.add('button-start');
+    this.startGameNode.textContent = 'Start game';
+
+    divStartButton.append(this.startGameNode);
+    this.gameNode.append(divStartButton);
     this.rootNode.append(this.gameNode);
   }
 
@@ -79,7 +88,7 @@ export class GameComponent {
   onStartGame(event) {
     event.stopPropagation();
     if (!this.isGameStart) {
-      event.currentTarget.textContent = 'Repeat';
+      this.startGameNode.classList.add('repeat');
       this.shuffleAudio();
       this.isGameStart = true;
     }
@@ -92,12 +101,11 @@ export class GameComponent {
       this.resultsCallback(this.gameSection, this.gameAudio[this.indexOfGameAudio].word, 'correct');
 
       isSameAudio = true;
-
-      new Audio(correctAudio).play();
       if (this.indexOfGameAudio === this.gameAudio.length - 1) {
         this.gameEnd();
         return isSameAudio;
       }
+      new Audio(correctAudio).play();
       this.indexOfGameAudio += 1;
       setTimeout(() => {
         this.playAudio();
@@ -134,9 +142,18 @@ export class GameComponent {
   gameEnd() {
     const modal = document.createElement('div');
     modal.classList.add('cards__end-game');
-    const span = document.createElement('span');
-    span.textContent = this.errors ? `${this.errors} errors` : 'Success';
-    modal.append(span);
+    const img = document.createElement('img');
+    modal.append(img);
+    if (this.errors) {
+      new Audio(failureAudio).play();
+      img.src = failureImg;
+      modal.innerHTML += `${this.errors} errors`;
+    } else {
+      new Audio(successAudio).play();
+      img.src = successImg;
+      modal.innerHTML += 'Success';
+    }
+
     this.rootNode.append(modal);
     this.rootNode.classList.add('body-modal');
     modal.addEventListener('click', (event) => {
@@ -152,7 +169,7 @@ export class GameComponent {
       card.gameEnd();
     });
     this.isGameStart = false;
-    this.startGameNode.textContent = 'Start';
+    this.startGameNode.classList.remove('repeat');
     this.startsNode.innerHTML = '';
     this.errors = 0;
   }

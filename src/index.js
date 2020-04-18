@@ -122,14 +122,22 @@ class App {
     const titlesBlock = document.createElement('div');
     titlesBlock.classList.add('main__page_links');
 
-    this.sectionTitles.forEach((element) => {
+    this.data.forEach((element) => {
       const a = document.createElement('a');
+      a.classList.add('main-card');
+      if (!this.isGameMode) {
+        a.classList.add('green');
+      }
       a.href = '#';
-      a.textContent = element;
+
+      const img = document.createElement('img');
+      img.src = element.items[0].image;
+      a.append(img);
+      a.innerHTML += `${element.section}`;
       titlesBlock.append(a);
       a.addEventListener('click', (event) => {
         event.stopPropagation();
-        this.changeLinkOnMainPage(element);
+        this.changeLinkOnMainPage(element.section);
         titlesBlock.remove();
       });
     });
@@ -142,16 +150,18 @@ class App {
     toggleBlock.innerHTML = toggle;
 
     node.append(toggleBlock);
-    const toggleGame = document.querySelector('.custom-control-input');
-    toggleGame.checked = this.isGameMode;
+    const toggleGame = document.querySelector('.switch-input');
+    toggleGame.checked = !this.isGameMode;
     toggleGame.addEventListener('change', (event) => this.onToggleGame(event));
   }
 
   onToggleGame(event) {
     event.stopPropagation();
-    this.setGameMode(event.target.checked);
+    this.setGameMode(!event.target.checked);
     if (this.isInGame) {
       this.resetGame();
+    } else {
+      this.resetMainPage();
     }
   }
 

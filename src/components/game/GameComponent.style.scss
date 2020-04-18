@@ -1,12 +1,15 @@
 .cards__block {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
 }
 
 .toggle__game {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  height: 50px;
 }
 
 .cards__stars {
@@ -49,8 +52,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .body-modal {
   overflow: hidden;
+}
+
+.button-start {
+  box-sizing: border-box;
+  padding: 20px 25px;
+  font-size: 24px;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 650px;
+  height: 65px;
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
+  color: #fff;
+  border-radius: 10px;
+  outline: 0 !important;
+  border-width: 1px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.button-start.repeat {
+  width: 65px;
+  font-size: 0;
+  background-image: url(../../assets/cards/img/repeat.svg), linear-gradient(40deg, #ffd86f, #fc6262);
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: 32px 32px, cover;
+  background-position: 50%;
 }
