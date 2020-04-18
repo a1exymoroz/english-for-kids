@@ -2,7 +2,9 @@ import './CardComponent.style.scss';
 import rotate from '../../../assets/rotate.svg';
 
 export class CardComponent {
-  constructor(data, isGameMode, index) {
+  constructor(data, isGameMode, index, gameSection, results) {
+    this.gameSection = gameSection;
+    this.results = results;
     this.data = data;
     this.cardNode = null;
     this.activeCard = false;
@@ -94,6 +96,8 @@ export class CardComponent {
     if (!this.activeCard) {
       new Audio(this.data.audioSrc).play();
     }
+
+    this.results.setWordResult(this.gameSection, this.data.word, 'train');
   }
 
   onMouseLeaveCard(event) {
@@ -102,7 +106,6 @@ export class CardComponent {
     this.activeCard = false;
   }
 
-  // TODO: watch this
   resetCard() {
     this.cardNode.removeEventListener('click', (event) => this.onRotateCard(event));
     this.cardNode.removeEventListener('mouseleave', (event) => this.onMouseLeaveCard(event));

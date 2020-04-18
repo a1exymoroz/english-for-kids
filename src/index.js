@@ -62,11 +62,8 @@ class App {
       this.data[this.indexLink - 1].items,
       this.isGameMode,
       this.data[this.indexLink - 1].section,
+      this.results,
     );
-
-    this.game.resultsCallback = (section, word, type) => {
-      this.results.setWordResult(section, word, type);
-    };
   }
 
   buildResultsPage() {

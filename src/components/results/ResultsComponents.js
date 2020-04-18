@@ -66,12 +66,13 @@ export class ResultsComponent {
 
   getTabContent(dataKey) {
     const content = document.createElement('div');
+    content.classList.add('table__content');
     const table = document.createElement('table');
     content.append(table);
     table.border = '1';
     const tr = document.createElement('tr');
     table.append(tr);
-    ['Word', '&#9989;', '&#10060;'].forEach((element) => {
+    ['Word', '&#9997;', '&#9989;', '&#10060;', '&#10060;%'].forEach((element) => {
       const th = document.createElement('th');
       th.innerHTML = element;
       th.classList.add('modal__table-items');
@@ -88,24 +89,46 @@ export class ResultsComponent {
       word.textContent = item;
       resultTr.append(word);
 
+      const train = document.createElement('td');
+      train.classList.add('modal__table-items');
+      const strObjTrain = `${dataKey}.${item}.train`;
+      const trainResult = this.getWordResult(strObjTrain) || 0;
+      train.textContent = trainResult;
+      resultTr.append(train);
+
       const success = document.createElement('td');
       success.classList.add('modal__table-items');
       const strObjSuccess = `${dataKey}.${item}.correct`;
-      const successResult = this.getWordResult(strObjSuccess);
-      success.textContent = successResult || 0;
+      const successResult = this.getWordResult(strObjSuccess) || 0;
+      success.textContent = successResult;
       resultTr.append(success);
 
       const wrong = document.createElement('td');
       wrong.classList.add('modal__table-items');
       const strObjWrong = `${dataKey}.${item}.wrong`;
-      const wrongResult = this.getWordResult(strObjWrong);
-      wrong.textContent = wrongResult || 0;
+      const wrongResult = this.getWordResult(strObjWrong) || 0;
+      wrong.textContent = wrongResult;
       resultTr.append(wrong);
+
+      const wrongPercent = document.createElement('td');
+      wrongPercent.classList.add('modal__table-items');
+
+      const wrongPercentResult = this.getWrongPercent(successResult, wrongResult);
+      wrongPercent.textContent = `${wrongPercentResult}%`;
+      resultTr.append(wrongPercent);
 
       table.append(resultTr);
     });
 
     return content;
+  }
+
+  getWrongPercent(success, wrong) {
+    if (!wrong) {
+      return 0;
+    }
+
+    return Math.floor((wrong / (success + wrong)) * 100);
   }
 
   setActiveLink(word) {
@@ -154,8 +177,3 @@ export class ResultsComponent {
     return array.reduce((acu, cur) => (acu ? acu[cur] : acu), this.result);
   }
 }
-
-// var arr = string.split('.');
-// return arr.reduce(function(pv, cv){
-//   return (pv) ? pv[cv] : pv;
-// }, this);

@@ -8,7 +8,9 @@ import failureImg from '../../assets/cards/img/failure.jpg';
 import successImg from '../../assets/cards/img/success.jpg';
 
 export class GameComponent {
-  constructor(rootNode, data, isGameMode, section) {
+  constructor(rootNode, data, isGameMode, section, results) {
+    this.gameSection = section;
+    this.results = results;
     this.rootNode = rootNode;
     this.cards = [];
     this.data = data;
@@ -22,8 +24,6 @@ export class GameComponent {
     this.errors = 0;
     this.changeLink = () => {};
     this.buildGame();
-    this.resultsCallback = () => {};
-    this.gameSection = section;
   }
 
   buildGame() {
@@ -66,7 +66,13 @@ export class GameComponent {
     const cards = document.createElement('div');
     cards.classList.add('cards__block');
     this.data.forEach((element, index) => {
-      const card = new CardComponent(element, this.isGameMode, index);
+      const card = new CardComponent(
+        element,
+        this.isGameMode,
+        index,
+        this.gameSection,
+        this.results,
+      );
       card.onGameCardClick = (word) => {
         if (!this.isGameStart) {
           return;
@@ -98,7 +104,11 @@ export class GameComponent {
   checkWord(word) {
     let isSameAudio = false;
     if (word === this.gameAudio[this.indexOfGameAudio].word) {
-      this.resultsCallback(this.gameSection, this.gameAudio[this.indexOfGameAudio].word, 'correct');
+      this.results.setWordResult(
+        this.gameSection,
+        this.gameAudio[this.indexOfGameAudio].word,
+        'correct',
+      );
 
       isSameAudio = true;
       if (this.indexOfGameAudio === this.gameAudio.length - 1) {
@@ -111,7 +121,11 @@ export class GameComponent {
         this.playAudio();
       }, 1000);
     } else {
-      this.resultsCallback(this.gameSection, this.gameAudio[this.indexOfGameAudio].word, 'wrong');
+      this.results.setWordResult(
+        this.gameSection,
+        this.gameAudio[this.indexOfGameAudio].word,
+        'wrong',
+      );
       this.errors += 1;
       new Audio(errorAudio).play();
     }
