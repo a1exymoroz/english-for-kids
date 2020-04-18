@@ -1,1 +1,10 @@
 @import './assets/css/bootstrap.min.css';
+.main__block {
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.main__page_links {
+  display: flex;
+  justify-content: space-evenly;
+}

@@ -4,6 +4,8 @@ import { animalSetA } from './sections/Animal (set A)';
 import { animalSetB } from './sections/Animal (set B)';
 import { clothes } from './sections/Clothes';
 import { emotions } from './sections/Emotions';
+import { math } from './sections/Math';
+import { kitchen } from './sections/Kitchen';
 
 export const cards = [
   {
@@ -29,5 +31,13 @@ export const cards = [
   {
     section: 'Emotions',
     items: emotions,
+  },
+  {
+    section: 'Math',
+    items: math,
+  },
+  {
+    section: 'Kitchen',
+    items: kitchen,
   },
 ];

@@ -14,7 +14,6 @@
   box-shadow: 0 1px 3px 0 #ccc;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
   transition: box-shadow 0.25s linear, transform 0.7s;
-  overflow: hidden;
 
   .front,
   .back {
@@ -67,7 +66,6 @@
   }
 
   &.cards__item_active {
-    box-shadow: -1px 5px 15px 0 rgba(0, 0, 0, 0.5);
     transform: rotateY(180deg);
   }
   &.inactive {

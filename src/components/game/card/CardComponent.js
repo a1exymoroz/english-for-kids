@@ -67,6 +67,10 @@ export class CardComponent {
     this.removeGameEvents();
   }
 
+  gameEnd() {
+    this.cardNode.classList.remove('inactive');
+  }
+
   onGameClick(event) {
     event.stopPropagation();
     this.onGameCardClick(this.data.word);

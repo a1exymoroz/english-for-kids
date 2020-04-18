@@ -1,0 +1,56 @@
+.cards__block {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.toggle__game {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cards__stars {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cards__startButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.star-succes {
+  background-image: url('../../assets/cards/img/star-win.svg');
+}
+
+.star-error {
+  background-image: url('../../assets/cards/img/star.svg');
+}
+
+.star-error,
+.star-succes {
+  flex-shrink: 0;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  background-size: 40px 40px;
+}
+
+.cards__end-game {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.body-modal {
+  overflow: hidden;
+}

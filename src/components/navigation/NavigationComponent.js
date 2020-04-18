@@ -34,31 +34,43 @@ export class NavigationComponent {
   }
 
   setEvents() {
-    document.querySelector('.navbar-toggler').addEventListener('click', (event) => {
-      event.stopPropagation();
-      const target = event.currentTarget;
-      target.classList.toggle('collapsed');
-      const isExpanded = target.getAttribute('aria-expanded');
-      target.setAttribute('aria-expanded', isExpanded === 'false' ? 'true' : 'false');
+    const toggler = document.querySelector('.navbar-toggler');
+
+    const toggleNavber = () => {
+      toggler.classList.toggle('collapsed');
+      const isExpanded = toggler.getAttribute('aria-expanded');
+      toggler.setAttribute('aria-expanded', isExpanded === 'false' ? 'true' : 'false');
       document.querySelector('.navbar-collapse').classList.toggle('show');
+    };
+    toggler.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleNavber();
     });
 
-    const listItem = document.querySelectorAll('.nav-link');
     document.querySelector('.navbar-nav').addEventListener('click', (event) => {
       event.stopPropagation();
 
       if (event.target.classList.contains('nav-link')) {
-        let linkIndex = 0;
-        listItem.forEach((element, index) => {
-          element.classList.remove('active');
-          if (element === event.target) {
-            linkIndex = index;
-          }
-        });
+        const word = event.target.textContent;
+        this.setActiveLink(word);
+        this.changeLink(word);
 
-        event.target.classList.add('active');
+        // TODO: it is hardcoding
+        if (document.body.offsetWidth < 992) {
+          toggleNavber();
+        }
+      }
+    });
+  }
 
-        this.changeLink(linkIndex);
+  setActiveLink(word) {
+    const listItem = document.querySelectorAll('.nav-link');
+    listItem.forEach((element) => {
+      element.classList.remove('active');
+    });
+    listItem.forEach((element) => {
+      if (element.textContent === word) {
+        element.classList.add('active');
       }
     });
   }
