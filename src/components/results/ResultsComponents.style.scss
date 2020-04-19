@@ -1,0 +1,24 @@
+.result__block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.result__button {
+  margin: 10px 0;
+}
+
+.result__table-items {
+  padding: 10px;
+  text-align: center;
+}
+
+.table__content {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.result__table-items_header {
+  cursor: pointer;
+}
