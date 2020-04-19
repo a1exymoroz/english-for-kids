@@ -64,6 +64,10 @@ class App {
       this.data[this.indexLink - 1].section,
       this.results,
     );
+
+    this.game.setResult = (section, word, type) => {
+      this.results.setWordResult(section, word, type);
+    };
   }
 
   buildResultsPage() {
@@ -93,6 +97,9 @@ class App {
   changeLinkOnMainPage(word) {
     const index = this.allTitles.findIndex((element) => element === word);
     if (index === this.indexLink) {
+      if (this.allTitles[index] === 'Results') {
+        this.resetResultsPage();
+      }
       return;
     }
     this.setLink(index);

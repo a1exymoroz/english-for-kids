@@ -49,7 +49,7 @@ export const kitchen = [
   },
   {
     word: 'pan',
-    translation: 'cковорода',
+    translation: 'сковорода',
     image: panImg,
     audioSrc: panAudio,
   },

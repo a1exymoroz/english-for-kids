@@ -2,9 +2,8 @@ import './CardComponent.style.scss';
 import rotate from '../../../assets/rotate.svg';
 
 export class CardComponent {
-  constructor(data, isGameMode, index, gameSection, results) {
+  constructor(data, isGameMode, index, gameSection) {
     this.gameSection = gameSection;
-    this.results = results;
     this.data = data;
     this.cardNode = null;
     this.activeCard = false;
@@ -18,6 +17,8 @@ export class CardComponent {
     }
 
     this.onGameCardClick = () => {};
+    this.isInactive = false;
+    this.setResult = () => {};
   }
 
   get getCardNode() {
@@ -61,21 +62,25 @@ export class CardComponent {
   }
 
   removeGameEvents() {
-    this.cardNode.removeEventListener('click', (event) => this.onGameClick(event));
+    this.cardNode.removeEventListener('click', (event) => this.onGameClick(event), false);
   }
 
   cardSuccessClicked() {
+    this.isInactive = true;
     this.cardNode.classList.add('inactive');
     this.removeGameEvents();
   }
 
   gameEnd() {
     this.cardNode.classList.remove('inactive');
+    this.isInactive = false;
   }
 
   onGameClick(event) {
     event.stopPropagation();
-    this.onGameCardClick(this.data.word);
+    if (!this.isInactive) {
+      this.onGameCardClick(this.data.word);
+    }
   }
 
   buildGameCard() {
@@ -97,7 +102,7 @@ export class CardComponent {
       new Audio(this.data.audioSrc).play();
     }
 
-    this.results.setWordResult(this.gameSection, this.data.word, 'train');
+    this.setResult(this.gameSection, this.data.word, 'train');
   }
 
   onMouseLeaveCard(event) {

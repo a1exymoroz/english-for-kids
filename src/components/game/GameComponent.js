@@ -8,9 +8,8 @@ import failureImg from '../../assets/cards/img/failure.jpg';
 import successImg from '../../assets/cards/img/success.jpg';
 
 export class GameComponent {
-  constructor(rootNode, data, isGameMode, section, results) {
+  constructor(rootNode, data, isGameMode, section) {
     this.gameSection = section;
-    this.results = results;
     this.rootNode = rootNode;
     this.cards = [];
     this.data = data;
@@ -24,6 +23,7 @@ export class GameComponent {
     this.errors = 0;
     this.changeLink = () => {};
     this.buildGame();
+    this.setResult = () => {};
   }
 
   buildGame() {
@@ -66,13 +66,10 @@ export class GameComponent {
     const cards = document.createElement('div');
     cards.classList.add('cards__block');
     this.data.forEach((element, index) => {
-      const card = new CardComponent(
-        element,
-        this.isGameMode,
-        index,
-        this.gameSection,
-        this.results,
-      );
+      const card = new CardComponent(element, this.isGameMode, index, this.gameSection);
+      card.setResult = (section, word, type) => {
+        this.setResult(section, word, type);
+      };
       card.onGameCardClick = (word) => {
         if (!this.isGameStart) {
           return;
@@ -104,11 +101,7 @@ export class GameComponent {
   checkWord(word) {
     let isSameAudio = false;
     if (word === this.gameAudio[this.indexOfGameAudio].word) {
-      this.results.setWordResult(
-        this.gameSection,
-        this.gameAudio[this.indexOfGameAudio].word,
-        'correct',
-      );
+      this.setResult(this.gameSection, this.gameAudio[this.indexOfGameAudio].word, 'correct');
 
       isSameAudio = true;
       if (this.indexOfGameAudio === this.gameAudio.length - 1) {
@@ -121,11 +114,7 @@ export class GameComponent {
         this.playAudio();
       }, 1000);
     } else {
-      this.results.setWordResult(
-        this.gameSection,
-        this.gameAudio[this.indexOfGameAudio].word,
-        'wrong',
-      );
+      this.setResult(this.gameSection, this.gameAudio[this.indexOfGameAudio].word, 'wrong');
       this.errors += 1;
       new Audio(errorAudio).play();
     }
